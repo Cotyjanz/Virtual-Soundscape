@@ -41,6 +41,8 @@ public class DemoPlayerController : MonoBehaviour {
     Vector3 rotation = mainCamera.transform.localRotation.eulerAngles;
     rotationX = rotation.x;
     rotationY = rotation.y;
+
+    Input.gyro.enabled = true;
   }
 
   void LateUpdate() {
@@ -51,6 +53,7 @@ public class DemoPlayerController : MonoBehaviour {
       SetCursorLock(false);
     }
 #endif  // UNITY_EDITOR
+
     // Update the rotation.
     float mouseX = Input.GetAxis("Mouse X");
     float mouseY = -Input.GetAxis("Mouse Y");
@@ -62,14 +65,19 @@ public class DemoPlayerController : MonoBehaviour {
     rotationX += sensitivity * mouseY;
     rotationY += sensitivity * mouseX;
     rotationX = Mathf.Clamp(rotationX, -clampAngleDegrees, clampAngleDegrees);
-    mainCamera.transform.localRotation = Quaternion.Euler(rotationX, rotationY, 0.0f);
+    //mainCamera.transform.localRotation = Quaternion.Euler(rotationX, rotationY, 0.0f);
+
+
     // Update the position.
     float movementX = Input.GetAxis("Horizontal");
     float movementY = Input.GetAxis("Vertical");
     Vector3 movementDirection = new Vector3(movementX, 0.0f, movementY);
     movementDirection = mainCamera.transform.localRotation * movementDirection;
     movementDirection.y = 0.0f;
+
     characterController.SimpleMove(movementSpeed * movementDirection);
+    
+
   }
 
   // Sets the cursor lock for first-person control.
